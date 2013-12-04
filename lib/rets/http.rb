@@ -1,3 +1,4 @@
+require "cgi"
 require "net/https"
 require "digest"
 
@@ -173,7 +174,7 @@ module RETS
         url_terminator = (args[:url].request_uri.include?("?")) ? "&" : "?"
         request_uri = "#{args[:url].request_uri}#{url_terminator}"
         args[:params].each do |k, v|
-          request_uri << "#{k}=#{url_encode(v.to_s)}&" if v
+          request_uri << "#{k}=#{CGI::escape(v.to_s)}&" if v
         end
       else
         request_uri = args[:url].request_uri
